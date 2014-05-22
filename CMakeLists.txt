@@ -11,10 +11,10 @@ find_package(VTK REQUIRED)
 include (${VTK_USE_FILE})
 
 set (SOURCES main.cpp
-                geoJSONReader.cpp
-                geoJSONReader.h
-                geoJSONReaderFeatures.h
-                geoJSONReaderFeatures.cpp)
+                vtkgeojsonreader.cpp
+                vtkgeojsonreader.h
+                vtkgeojsonfeature.cpp
+                vtkgeojsonfeature.h)
 
 add_executable(run ${SOURCES})
 
