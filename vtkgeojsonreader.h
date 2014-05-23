@@ -18,18 +18,28 @@ using namespace std;
 class vtkGeoJSONReader: public vtkAlgorithm
 {
 public:
+
     vtkGeoJSONReader();
-    vtkPolyData *parseFile(vtkStdString filename);
+
+    //Set filename for the geoJSON data source
     void SetFileName(const char *fileName);
+
+    //Parse the data and update the outputData according to the geoJSON data in the source file
     void Update();
+
+    //Get the outputData generated after Update() i.e. outputData containing vtkPolyData corresponding to the data in geoJSON fileName
     vtkPolyData *GetOutput();
 
 protected:
+
     ifstream file;
     vtkStdString fileName;
     vtkPolyData *outputData;
 
+    //Parse the Json Value corresponding to the root of the geoJSON data from the file
     void ParseRoot(Json::Value root);
+
+    //Verify if file exists and can be read by the parser
     bool CanReadFile(const char *filename);
 
 

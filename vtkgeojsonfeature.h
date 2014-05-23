@@ -10,6 +10,7 @@
 #include <vtkPolygon.h>
 #include <vtk_jsoncpp.h>
 
+//Currently implemented geoJSON compatible Geometries
 #define POINT                   "Point"
 #define MULTI_POINT             "MultiPoint"
 #define LINE_STRING             "LineString"
