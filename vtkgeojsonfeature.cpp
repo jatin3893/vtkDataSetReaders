@@ -4,27 +4,12 @@ vtkGeoJSONFeature::vtkGeoJSONFeature()
 {
 }
 
-vtkPoints *vtkGeoJSONFeature::extractMultiPoint(Json::Value coordinates)
-{
-    vtkPoints *points = vtkPoints::New();
-
-    if(coordinates.isArray())
-    {
-        for(int i = 0; i < coordinates.size(); i++)
-        {
-            double *point = extractPoint(coordinates[i]);
-            points->InsertNextPoint(point[0], point[1], point[2]);
-        }
-    }
-    return points;
-}
-
 vtkPolyData *vtkGeoJSONFeature::GetOutput()
 {
     return outputData;
 }
 
-double *vtkGeoJSONFeature::extractPoint(Json::Value coordinates)
+double *vtkGeoJSONFeature::createPoint(Json::Value coordinates)
 {
     double *point = new double[3];
     if(coordinates.size() == 1)
@@ -50,6 +35,53 @@ double *vtkGeoJSONFeature::extractPoint(Json::Value coordinates)
     }
     return point;
 }
+
+vtkPolyData *vtkGeoJSONFeature::extractPoint(Json::Value coordinates)
+{
+    vtkPolyData *pointPolyData = vtkPolyData::New();
+    double *point = createPoint(coordinates);
+
+    const int PID_SIZE = 1;
+    vtkIdType pid[PID_SIZE];
+
+    vtkPoints *points = vtkPoints::New();
+    pid[0] = points->InsertNextPoint(point[0], point[1], point[2]);
+
+    vtkCellArray *verts = vtkCellArray::New();
+    verts->InsertNextCell(PID_SIZE, pid);
+
+    pointPolyData->SetPoints(points);
+    pointPolyData->SetVerts(verts);
+
+    return pointPolyData;
+}
+
+
+vtkPolyData *vtkGeoJSONFeature::extractMultiPoint(Json::Value coordinates)
+{
+    vtkPolyData *multiPointPolyData = vtkPolyData::New();
+
+    if(coordinates.isArray())
+    {
+        vtkPoints *points = vtkPoints::New();
+        vtkCellArray *verts = vtkCellArray::New();
+
+        const int PID_SIZE = coordinates.size();
+        vtkIdType pid[PID_SIZE];
+
+        for(int i = 0; i < PID_SIZE; i++)
+        {
+            double *point = createPoint(coordinates[i]);
+            pid[i] = points->InsertNextPoint(point[0], point[1], point[2]);
+        }
+        verts->InsertNextCell(PID_SIZE, pid);
+
+        multiPointPolyData->SetVerts(verts);
+        multiPointPolyData->SetPoints(points);
+    }
+    return multiPointPolyData;
+}
+
 vtkPolyData *vtkGeoJSONFeature::extractLineString(Json::Value coordinates)
 {
     return vtkPolyData::New();
@@ -101,17 +133,12 @@ vtkPolyData *vtkGeoJSONFeature::extractGeoJSONFeatureGeometry(Json::Value root)
         if(isEqual(typeString, POINT))
         {
             std::cout << "This is a Point!" << std::endl;
-            double *point = extractPoint(coordinates);
-
-            vtkPoints *points = vtkPoints::New();
-            points->InsertNextPoint(point[0], point[1], point[2]);
-            outputData->SetPoints(points);
+            outputData = extractPoint(coordinates);
         }
         else if(isEqual(typeString, MULTI_POINT))
         {
             std::cout << "This is a Multi Point!" << std::endl;
-            vtkPoints *points = extractMultiPoint(coordinates);
-            outputData->SetPoints(points);
+            outputData = extractMultiPoint(coordinates);
         }
         else if(isEqual(typeString, LINE_STRING))
         {

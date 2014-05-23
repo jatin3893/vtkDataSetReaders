@@ -3,6 +3,9 @@
 
 #include <vtkPolyData.h>
 #include <vtkPoints.h>
+#include <vtkCellArray.h>
+#include <vtkLine.h>
+#include <vtkPolygon.h>
 #include <vtk_jsoncpp.h>
 
 #define POINT                   "Point"
@@ -24,12 +27,15 @@ protected:
     vtkPolyData *outputData;
 
     vtkPolyData *extractGeoJSONFeatureGeometry(Json::Value root);
-    double *extractPoint(Json::Value coordinates);
-    vtkPoints *extractMultiPoint(Json::Value coordinates);
+    vtkPolyData *extractPoint(Json::Value coordinates);
+    vtkPolyData *extractMultiPoint(Json::Value coordinates);
     vtkPolyData *extractLineString(Json::Value coordinates);
     vtkPolyData *extractMultiLineString(Json::Value coordinateArray);
     vtkPolyData *extractPolygon(Json::Value coordinate);
     vtkPolyData *extractMultiPolygon(Json::Value coordinateArray);
+
+    double *createPoint(Json::Value coordinates);
+
     bool isEqual(vtkStdString str1, vtkStdString str2);
 };
 
