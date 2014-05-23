@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 2.8.5 FATAL_ERROR)
 
-set (VTK_DIR "/media/NewVolume/College_Files/Git_Repo/VTK_Kitware/BuildVTK/")
-set (CMAKE_BUILD_TYPE "None")
-set (CMAKE_INSTALL_PREFIX "/usr/local")
+set (VTK_DIR "Path To VTK Build Directory")
 
 project ( geoJSONReader )
 
