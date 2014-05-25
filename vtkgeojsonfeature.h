@@ -1,6 +1,7 @@
 #ifndef VTKGEOJSONFEATURE_H
 #define VTKGEOJSONFEATURE_H
 
+//VTK Includes
 #include <vtkPolyData.h>
 #include <vtkPoints.h>
 #include <vtkCellArray.h>
@@ -8,6 +9,8 @@
 #include <vtkCleanPolyData.h>
 #include <vtkLine.h>
 #include <vtkPolygon.h>
+
+//Parser Include
 #include <vtk_jsoncpp.h>
 
 //Currently implemented geoJSON compatible Geometries
@@ -25,7 +28,7 @@ public:
     vtkGeoJSONFeature();
 
     //Extract the geometry and properties corresponding to the geoJSON feature stored at root
-    vtkPolyData *extractGeoJSONFeature(Json::Value root);
+    vtkPolyData *extractGeoJSONFeature(Json::Value root, vtkPolyData *outputData);
 
     //Return the vtkPolyData corresponding to the geoJSON feature stord in featureRoot
     vtkPolyData *GetOutput();
@@ -38,31 +41,53 @@ protected:
     Json::Value featureRoot;
 
     //Extract geoJSON geometry into vtkPolyData *
-    vtkPolyData *extractGeoJSONFeatureGeometry(Json::Value root);
+    vtkPolyData *extractGeoJSONFeatureGeometry(Json::Value root, vtkPolyData *outputData);
 
     //Extract geoJSON Point into vtkPolyData *
-    vtkPolyData *extractPoint(Json::Value coordinates);
+    vtkPolyData *extractPoint(Json::Value coordinates, vtkPolyData *outputData);
 
     //Extract geoJSON MultiPoint into vtkPolyData *
-    vtkPolyData *extractMultiPoint(Json::Value coordinates);
+    vtkPolyData *extractMultiPoint(Json::Value coordinates, vtkPolyData *outputData);
 
     //Extract geoJSON Line String into vtkPolyData *
-    vtkPolyData *extractLineString(Json::Value coordinates);
+    vtkPolyData *extractLineString(Json::Value coordinates, vtkPolyData *outputData);
 
     //Extract geoJSON Multi Line String into vtkPolyData *
-    vtkPolyData *extractMultiLineString(Json::Value coordinateArray);
+    vtkPolyData *extractMultiLineString(Json::Value coordinateArray, vtkPolyData *outputData);
 
     //Extract geoJSON Polygon into vtkPolyData *
-    vtkPolyData *extractPolygon(Json::Value coordinate);
+    vtkPolyData *extractPolygon(Json::Value coordinate, vtkPolyData *outputData);
 
     //Extract geoJSON Multi Polygon into vtkPolyData *
-    vtkPolyData *extractMultiPolygon(Json::Value coordinateArray);
+    vtkPolyData *extractMultiPolygon(Json::Value coordinateArray, vtkPolyData *outputData);
 
     //Point[] from its JSON equivalent
     double *createPoint(Json::Value coordinates);
 
     //Case insensitive string comparison
     bool isEqual(vtkStdString str1, vtkStdString str2);
+
+    //Check if the root contains data corresponding to a point
+    bool isPoint(Json::Value root);
+
+    //Check if the root contains data corresponding to Multi Point
+    bool isMultiPoint(Json::Value root);
+
+    //To Do.
+    //Check if the root contains data corresponding to a Line String
+    bool isLineString(Json::Value root);
+
+    //To Do.
+    //Check if the root contains data corresponding to Multi Line String
+    bool isMultiLineString(Json::Value root);
+
+    //To Do.
+    //Check if the root contains data corresponding to a Polygon
+    bool isPolygon(Json::Value root);
+
+    //To Do.
+    //Check if the root contains data corresponding to Multi Polygon
+    bool isMultiPolygon(Json::Value root);
 };
 
 #endif // VTKGEOJSONFEATURE_H

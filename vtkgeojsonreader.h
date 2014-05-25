@@ -1,10 +1,12 @@
 #ifndef VTKGEOJSONREADER_H
 #define VTKGEOJSONREADER_H
 
-#include <vtkStdString.h>
+//Standard C++ Includes
 #include <fstream>
 #include <iostream>
 
+//VTK Includes
+#include <vtkStdString.h>
 #include <vtkPolyData.h>
 #include <vtkAppendPolyData.h>
 #include <vtkCleanPolyData.h>
@@ -12,8 +14,6 @@
 #include <vtk_jsoncpp.h>
 #include <vtkAlgorithm.h>
 #include "vtkgeojsonfeature.h"
-
-using namespace std;
 
 class vtkGeoJSONReader: public vtkAlgorithm
 {
@@ -26,6 +26,9 @@ public:
 
     //Parse the data and update the outputData according to the geoJSON data in the source file
     void Update();
+
+    //Deleting the current data. To Do.
+    void Delete();
 
     //Get the outputData generated after Update() i.e. outputData containing vtkPolyData corresponding to the data in geoJSON fileName
     vtkPolyData *GetOutput();
@@ -42,6 +45,10 @@ protected:
     //Verify if file exists and can be read by the parser
     bool CanReadFile(const char *filename);
 
+    void initialiseOutputData();
+
+    //Destructor for the reader. To Do.
+    ~vtkGeoJSONReader();
 
 };
 
