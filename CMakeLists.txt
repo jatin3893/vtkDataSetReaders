@@ -7,7 +7,8 @@ set(VTK_REQUIRED_COMPONENTS
   vtkRenderingCore
   vtkRenderingOpenGL
   vtkjsoncpp
-  vtkCommonCore)
+  vtkCommonCore
+  vtkInteractionStyle)
 
 find_package(VTK NO_MODULE REQUIRED COMPONENTS ${VTK_REQUIRED_COMPONENTS})
 include(${VTK_USE_FILE})
