@@ -6,7 +6,7 @@
 #include <vtkPolyDataMapper.h>
 
 //Reader includes
-#include "vtkgeojsonreader.h"
+#include "vtkGeoJSONReader.h"
 
 int main(int argc, char **argv)
 {

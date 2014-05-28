@@ -1,4 +1,4 @@
-#include "vtkgeojsonfeature.h"
+#include "vtkGeoJSONFeature.h"
 
 vtkGeoJSONFeature::vtkGeoJSONFeature()
 {

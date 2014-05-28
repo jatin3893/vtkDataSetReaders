@@ -1,19 +1,23 @@
-cmake_minimum_required(VERSION 2.8.5 FATAL_ERROR)
-
-set (VTK_DIR "Path To VTK Build Directory")
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 project ( geoJSONReader )
 
-find_package(VTK REQUIRED)
+set(VTK_REQUIRED_COMPONENTS
+  # Core components
+  vtkRenderingCore
+  vtkRenderingOpenGL
+  vtkjsoncpp
+  vtkCommonCore)
 
-include (${VTK_USE_FILE})
+find_package(VTK NO_MODULE REQUIRED COMPONENTS ${VTK_REQUIRED_COMPONENTS})
+include(${VTK_USE_FILE})
 
-set (SOURCES main.cpp
-                vtkgeojsonreader.cpp
-                vtkgeojsonreader.h
-                vtkgeojsonfeature.cpp
-                vtkgeojsonfeature.h)
+set (SOURCES
+     main.cpp
+     vtkGeoJSONReader.cxx
+     vtkGeoJSONReader.h
+     vtkGeoJSONFeature.cxx
+     vtkGeoJSONFeature.h)
 
 add_executable(run ${SOURCES})
-
 target_link_libraries(run ${VTK_LIBRARIES})
