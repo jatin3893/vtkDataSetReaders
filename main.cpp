@@ -20,7 +20,6 @@ int main(int argc, char **argv)
   reader->Update();
 
   vtkPolyData *outputData = reader->GetOutput();
-  std::cout << outputData << " " << outputData->GetPoints() << " " << outputData->GetVerts() << " " << outputData->GetPolys() << " " << outputData->GetLines();
 
   //Visualise in a render window
   vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
