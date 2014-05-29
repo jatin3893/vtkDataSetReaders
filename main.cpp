@@ -8,7 +8,14 @@
 //Reader includes
 #include "vtkGeoJSONReader.h"
 
+int Test1(int argc, char **argv);
+
 int main(int argc, char **argv)
+{
+  return Test1(argc, argv);
+}
+
+int Test1(int argc, char **argv)
 {
   //Reader
   vtkGeoJSONReader *reader = vtkGeoJSONReader::New();
