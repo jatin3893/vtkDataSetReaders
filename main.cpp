@@ -21,7 +21,7 @@ int Test1(int argc, char **argv)
   vtkGeoJSONReader *reader = vtkGeoJSONReader::New();
 
   //Select source file
-  reader->SetFileName("sample.json");
+  reader->SetFileName("JSONSample/test_1.json");
 
   //Read the output
   reader->Update();
