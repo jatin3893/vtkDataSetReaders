@@ -28,3 +28,4 @@ The implementation is based on VTK version 6. At present, it is not compatible w
 
 More information about the geoJSON format can be obtained here
 http://geojson.org/
+
