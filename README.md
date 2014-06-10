@@ -9,18 +9,27 @@ The vtkGeoJSONReader filter reads a geoJSON file specification and converts it i
 
 Current implementation of the reader supports the following geoJSON geometries
 
--Point
+- Point
 
--Multi Point
+- Multi Point
 
--Line String
+- Line String
 
--Multi Line String
+- Multi Line String
 
--Polygon (Without holes)
+- Polygon (Without holes)
 
--Multi Polygons (Without holes)
+- Multi Polygons (Without holes)
 
+The vtkLASReader filter reads LIDAR data in LAS format and converts it into VTK compatible vtkPolyData.
+
+To Do:
+
+For visualisation purposes, PointData in vtkPolyData will be modified according to the following point data properties:
+
+- Classification/Class Name
+- Intensity
+- Colour
 
 
 The implementation is based on VTK version 6. At present, it is not compatible with older versions of VTK.
