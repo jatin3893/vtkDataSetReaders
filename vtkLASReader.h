@@ -6,6 +6,7 @@
 #include <vtkPolyData.h>
 #include <vtkCellArray.h>
 #include <vtkPoints.h>
+#include <vtkPointData.h>
 #include <vtkVertexGlyphFilter.h>
 #include <vtkInformation.h>
 #include <vtkInformationVector.h>
@@ -22,15 +23,41 @@ class vtkLASReader: public vtkPolyDataAlgorithm
 {
 public:
   static vtkLASReader* New();
-  vtkTypeMacro(vtkLASReader,vtkPolyDataAlgorithm);
+  vtkTypeMacro(vtkLASReader,vtkPolyDataAlgorithm)
   virtual void PrintSelf(ostream &os, vtkIndent indent);
 
   // Decription:
-  // Accessor for name of the file that will be opened
-  vtkSetStringMacro(FileName);
-  vtkGetStringMacro(FileName);
+  // Constants
+  enum VisualisationTypeConstants
+  {
+    NONE = 0,
+    COLOR,
+    CLASSIFICATION
+  };
 
-  liblas::Header *GetHeader();
+  enum ClassificationTypeConstans
+  {
+      UNCLASSIFIED = 0,
+      GROUND,
+      VEGETATION,
+      WATER
+  };
+
+  // Decription:
+  // Accessor for name of the file that will be opened
+  vtkSetStringMacro(FileName)
+  vtkGetStringMacro(FileName)
+
+  // Decription:
+  // Accessor for Visualisation Type
+  vtkSetMacro(VisualisationType, VisualisationTypeConstants)
+  vtkGetMacro(VisualisationType, VisualisationTypeConstants)
+
+  // Decription:
+  // Accessor for the LAS Header file
+  vtkGetMacro(Header, liblas::Header *)
+
+  static unsigned char ClassificationColorMap[10][3];
 
 protected:
   vtkLASReader();
@@ -41,8 +68,13 @@ protected:
   int RequestData(vtkInformation* request, vtkInformationVector** inputVector,
                   vtkInformationVector* outputVector);
 
+  // Description:
+  // Read point record data i.e. position and visualisation data
+  void ReadPointRecordData(liblas::Reader &reader, vtkPolyData *pointsPolyData);
+
   int pointRecordsCount;
-  liblas::Header *header;
+  VisualisationTypeConstants VisualisationType;
+  liblas::Header *Header;
   char *FileName;
 
 private:
