@@ -26,7 +26,7 @@ Current implementation of the reader supports the following geoJSON geometries
 The implementation is based on VTK version 6. At present, it is not compatible with older versions of VTK.
 
 Important URLs:
-
+===============
 
 More information about the geoJSON format can be obtained here:
 
