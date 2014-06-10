@@ -51,33 +51,33 @@ int TestGeoJSON(int argc, char **argv)
 }
 int TestLASLidar(int argc, char **argv)
 {
-    //Reader
-    vtkLASReader *reader = vtkLASReader::New();
+  //Reader
+  vtkLASReader *reader = vtkLASReader::New();
 
-    //Select source file
-    reader->SetFileName("LASSample/test_1.las");
-    reader->SetVisualisationType(vtkLASReader::CLASSIFICATION);
-    //Read the output
-    reader->Update();
+  //Select source file
+  reader->SetFileName("LASSample/test_3.las");
+  reader->SetVisualisationType(vtkLASReader::CLASSIFICATION);
+  //Read the output
+  reader->Update();
 
-    vtkPolyData *outputData = reader->GetOutput();
+  vtkPolyData *outputData = reader->GetOutput();
 
-    //Visualise in a render window
-    vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
-    mapper->SetInputData(outputData);
+  //Visualise in a render window
+  vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+  mapper->SetInputData(outputData);
 
-    vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
-    actor->SetMapper(mapper);
+  vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+  actor->SetMapper(mapper);
 
-    vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
-    vtkSmartPointer<vtkRenderWindow> renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
-    renderWindow->AddRenderer(renderer);
+  vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
+  vtkSmartPointer<vtkRenderWindow> renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
+  renderWindow->AddRenderer(renderer);
 
-    vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
-    renderWindowInteractor->SetRenderWindow(renderWindow);
-    renderer->AddActor(actor);
-    renderWindow->Render();
-    renderWindowInteractor->Start();
+  vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
+  renderWindowInteractor->SetRenderWindow(renderWindow);
+  renderer->AddActor(actor);
+  renderWindow->Render();
+  renderWindowInteractor->Start();
 
-    return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }

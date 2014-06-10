@@ -70,12 +70,12 @@ protected:
 
   // Description:
   // Read point record data i.e. position and visualisation data
-  void ReadPointRecordData(liblas::Reader &reader, vtkPolyData *pointsPolyData);
+  void ReadPointRecordData(liblas::Reader &reader, vtkPolyData* pointsPolyData);
 
   int pointRecordsCount;
   VisualisationTypeConstants VisualisationType;
-  liblas::Header *Header;
-  char *FileName;
+  liblas::Header* Header;
+  char* FileName;
 
 private:
   vtkLASReader(const vtkLASReader&);  // Not implemented

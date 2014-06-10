@@ -53,7 +53,7 @@ int vtkLASReader::RequestData(vtkInformation* vtkNotUsed(request),
   std::ifstream ifs;
   ifs.open(FileName, std::ios_base::binary | std::ios_base::in);
 
-  if (!ifs.is_open())
+  if ( ! ifs.is_open() )
   {
   vtkErrorMacro (<< "Unable to open File for reading in binary mode");
   return VTK_ERROR;
@@ -65,11 +65,11 @@ int vtkLASReader::RequestData(vtkInformation* vtkNotUsed(request),
   Header = new liblas::Header(reader.GetHeader());
   pointRecordsCount = Header->GetPointRecordsCount();
 
-  vtkPolyData *pointsPolyData = vtkPolyData::New();
+  vtkPolyData* pointsPolyData = vtkPolyData::New();
   ReadPointRecordData(reader, pointsPolyData);
 
   // Convert points to verts in output polydata
-  vtkVertexGlyphFilter *vertexFilter = vtkVertexGlyphFilter::New();
+  vtkVertexGlyphFilter* vertexFilter = vtkVertexGlyphFilter::New();
   vertexFilter->SetInputData(pointsPolyData);
   vertexFilter->Update();
   output->ShallowCopy(vertexFilter->GetOutput());
@@ -78,10 +78,10 @@ int vtkLASReader::RequestData(vtkInformation* vtkNotUsed(request),
 }
 
 //----------------------------------------------------------------------------
-void vtkLASReader::ReadPointRecordData(liblas::Reader &reader, vtkPolyData *pointsPolyData)
+void vtkLASReader::ReadPointRecordData(liblas::Reader &reader, vtkPolyData* pointsPolyData)
 {
-  vtkPoints *points = vtkPoints::New();
-  vtkUnsignedCharArray *colors = vtkUnsignedCharArray::New();
+  vtkPoints* points = vtkPoints::New();
+  vtkUnsignedCharArray* colors = vtkUnsignedCharArray::New();
   colors->SetNumberOfComponents(3);
   colors->SetName("Colors");
 
@@ -96,7 +96,7 @@ void vtkLASReader::ReadPointRecordData(liblas::Reader &reader, vtkPolyData *poin
   // Add more options for reading based on properties, classification, intensity, etc.
   // as specified in the LAS specification.
 
-  unsigned char *color;
+  unsigned char* color;
   switch(VisualisationType)
   {
   case NONE:
