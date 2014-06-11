@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
-project ( vtkDataSetReaders )
+project (vtkDataSetReaders)
 
 set(VTK_REQUIRED_COMPONENTS
 	# Core components
@@ -17,13 +17,15 @@ include(${libLAS_INCLUDE_DIRS})
 include(${VTK_USE_FILE})
 
 set (SOURCES
-		 main.cpp
-		 vtkGeoJSONReader.cxx
-		 vtkGeoJSONReader.h
-		 vtkGeoJSONFeature.cxx
-		 vtkGeoJSONFeature.h
-		 vtkLASReader.cxx
-		 vtkLASReader.h)
+	 main.cpp
+	 vtkGeoJSONReader.cxx
+	 vtkGeoJSONReader.h
+	 vtkGeoJSONFeature.cxx
+	 vtkGeoJSONFeature.h
+	 vtkLASReader.cxx
+	 vtkLASReader.h)
+
+include_directories(${libLAS_INCLUDE_DIRS})
 
 add_executable(run ${SOURCES})
 target_link_libraries(run ${VTK_LIBRARIES} ${libLAS_LIBRARIES})
