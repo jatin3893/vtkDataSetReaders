@@ -4,6 +4,7 @@ vtkStandardNewMacro(vtkLASReader)
 
 //----------------------------------------------------------------------------
 unsigned char vtkLASReader::ClassificationColorMap[][3] = {
+  //{Red,  Green,   Blue}
     {  0,      0,      0},    //0     Created, Never Classified   Black
     {255,      0,      0},    //1     Unclassified                Red
     {145,    100,     45},    //2     Ground                      Brown
@@ -21,7 +22,7 @@ vtkLASReader::vtkLASReader()
 {
   this->FileName = NULL;
   this->pointRecordsCount = 0;
-  this->VisualisationType = NONE;
+  this->VisualisationType = None;
   this->Header = NULL;
 
   this->SetNumberOfInputPorts(0);
@@ -83,7 +84,6 @@ void vtkLASReader::ReadPointRecordData(liblas::Reader &reader, vtkPolyData* poin
   vtkPoints* points = vtkPoints::New();
   vtkUnsignedCharArray* colors = vtkUnsignedCharArray::New();
   colors->SetNumberOfComponents(3);
-  colors->SetName("Colors");
 
   for ( int i= 0; i < pointRecordsCount && reader.ReadNextPoint(); i++)
   {
@@ -92,32 +92,24 @@ void vtkLASReader::ReadPointRecordData(liblas::Reader &reader, vtkPolyData* poin
                         p.GetY() * Header->GetScaleY() * 2 + Header->GetOffsetY(),
                         p.GetZ() * Header->GetScaleZ() * 2 + Header->GetOffsetZ());
 
-  // Todo:
-  // Add more options for reading based on properties, classification, intensity, etc.
-  // as specified in the LAS specification.
-
   unsigned char* color;
   switch(VisualisationType)
-  {
-  case NONE:
-    break;
-
-  case COLOR:
-    color = new unsigned char[3];
-    color[0] = p.GetColor().GetRed() / 256;
-    color[1] = p.GetColor().GetGreen() / 256;
-    color[2] = p.GetColor().GetBlue() / 256;
-    colors->InsertNextTupleValue(color);
-    break;
-
-  case CLASSIFICATION:
-    colors->InsertNextTupleValue( vtkLASReader::ClassificationColorMap[ p.GetClassification().GetClass() ] );
-    break;
-
-  default:
-    break;
-  }
-
+    {
+    case None:
+      break;
+    case Color:
+      color = new unsigned char[3];
+      color[0] = p.GetColor().GetRed() / 256;
+      color[1] = p.GetColor().GetGreen() / 256;
+      color[2] = p.GetColor().GetBlue() / 256;
+      colors->InsertNextTupleValue(color);
+      break;
+    case Classification:
+      colors->InsertNextTupleValue( vtkLASReader::ClassificationColorMap[ p.GetClassification().GetClass() ] );
+      break;
+    default:
+      break;
+    }
   }
 
   pointsPolyData->SetPoints(points);

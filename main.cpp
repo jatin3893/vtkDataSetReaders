@@ -14,8 +14,8 @@ int TestLASLidar(int argc, char **argv);
 
 int main(int argc, char **argv)
 {
-  ///return TestLASLidar(argc, argv);
-  return TestGeoJSON(argc, argv);
+  return TestLASLidar(argc, argv);
+  // return TestGeoJSON(argc, argv);
 }
 
 int TestGeoJSON(int argc, char **argv)
@@ -57,7 +57,7 @@ int TestLASLidar(int argc, char **argv)
 
   //Select source file
   reader->SetFileName("LASSample/test_3.las");
-  reader->SetVisualisationType(vtkLASReader::CLASSIFICATION);
+  reader->SetVisualisationType(vtkLASReader::Classification);
   //Read the output
   reader->Update();
 

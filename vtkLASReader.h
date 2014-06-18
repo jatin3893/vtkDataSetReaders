@@ -27,20 +27,26 @@ public:
   virtual void PrintSelf(ostream &os, vtkIndent indent);
 
   // Decription:
-  // Constants
-  enum VisualisationTypeConstants
-  {
-    NONE = 0,
-    COLOR,
-    CLASSIFICATION
+  // All the Visualisation Types have been listed here
+  enum VisualisationTypeConstants {
+    None = 0,
+    Color,
+    Classification
   };
 
-  enum ClassificationTypeConstans
-  {
-      UNCLASSIFIED = 0,
-      GROUND,
-      VEGETATION,
-      WATER
+  // Description:
+  // All the Classification Types according to LAS spec are listed here
+  enum ClassificationTypeConstans {
+    Created_NotClassified = 0,
+    Unclassified,     // 1
+    Ground,           // 2
+    LowVegetation,    // 3
+    MediumVegetation, // 4
+    HighVegetation,   // 5
+    Building,         // 6
+    LowPoint,         // 7
+    ModelKeyPoint,    // 8
+    Water             // 9
   };
 
   // Decription:
@@ -57,8 +63,6 @@ public:
   // Accessor for the LAS Header file
   vtkGetMacro(Header, liblas::Header *)
 
-  static unsigned char ClassificationColorMap[10][3];
-
 protected:
   vtkLASReader();
   virtual ~vtkLASReader();
@@ -72,6 +76,10 @@ protected:
   // Read point record data i.e. position and visualisation data
   void ReadPointRecordData(liblas::Reader &reader, vtkPolyData* pointsPolyData);
 
+  // Description:
+  // Map from Class Number to Corresponding Color
+  static unsigned char ClassificationColorMap[10][3];
+
   int pointRecordsCount;
   VisualisationTypeConstants VisualisationType;
   liblas::Header* Header;
@@ -81,5 +89,11 @@ private:
   vtkLASReader(const vtkLASReader&);  // Not implemented
   void operator=(const vtkLASReader&);    // Not implemented
 };
+
+// To Do:
+// Option to change colouring scheme ( Colours in ClassificationColorMap )
+// Look for better Visualisation Methods if possible?
+// Ex: Converting it to a Polygon mesh?
+//
 
 #endif // __vtkLASReader_h
