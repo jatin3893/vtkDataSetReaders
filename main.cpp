@@ -56,8 +56,9 @@ int TestLASLidar(int argc, char **argv)
   vtkLASReader *reader = vtkLASReader::New();
 
   //Select source file
-  reader->SetFileName("LASSample/test_3.las");
+  reader->SetFileName("LASSample/test_1.las");
   reader->SetVisualisationType(vtkLASReader::Classification);
+
   //Read the output
   reader->Update();
 

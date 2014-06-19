@@ -79,6 +79,29 @@ int vtkLASReader::RequestData(vtkInformation* vtkNotUsed(request),
 }
 
 //----------------------------------------------------------------------------
+void vtkLASReader::SetClassificationColor(ClassificationType type,
+                                          unsigned char red,
+                                          unsigned char green,
+                                          unsigned char blue)
+{
+  if(type <= 0 || type > Water)
+  {
+  vtkErrorMacro (<< "Invalid type of Class Specified!");
+  return;
+  }
+
+  this->ClassificationColorMap[type][0] = red;
+  this->ClassificationColorMap[type][1] = green;
+  this->ClassificationColorMap[type][2] = blue;
+}
+
+//----------------------------------------------------------------------------
+void vtkLASReader::SetClassificationColor(ClassificationType type, unsigned char color[])
+{
+  this->SetClassificationColor(type, color[0], color[1], color[2]);
+}
+
+//----------------------------------------------------------------------------
 void vtkLASReader::ReadPointRecordData(liblas::Reader &reader, vtkPolyData* pointsPolyData)
 {
   vtkPoints* points = vtkPoints::New();

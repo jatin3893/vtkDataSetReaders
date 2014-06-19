@@ -36,7 +36,7 @@ public:
 
   // Description:
   // All the Classification Types according to LAS spec are listed here
-  enum ClassificationTypeConstans {
+  enum ClassificationType {
     Created_NotClassified = 0,
     Unclassified,     // 1
     Ground,           // 2
@@ -62,6 +62,12 @@ public:
   // Decription:
   // Accessor for the LAS Header file
   vtkGetMacro(Header, liblas::Header *)
+
+  // Description:
+  // Set User specified color values in the Classification Color Map instead of the default values
+  void SetClassificationColor(ClassificationType type, unsigned char color[3]);
+  void SetClassificationColor(ClassificationType type, unsigned char red, unsigned char green, unsigned char blue);
+
 
 protected:
   vtkLASReader();
@@ -91,7 +97,6 @@ private:
 };
 
 // To Do:
-// Option to change colouring scheme ( Colours in ClassificationColorMap )
 // Look for better Visualisation Methods if possible?
 // Ex: Converting it to a Polygon mesh?
 //
