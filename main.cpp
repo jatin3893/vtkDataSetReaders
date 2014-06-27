@@ -14,8 +14,8 @@ int TestLASLidar(int argc, char **argv);
 
 int main(int argc, char **argv)
 {
-  return TestLASLidar(argc, argv);
-  // return TestGeoJSON(argc, argv);
+//  return TestLASLidar(argc, argv);
+   return TestGeoJSON(argc, argv);
 }
 
 int TestGeoJSON(int argc, char **argv)
@@ -24,7 +24,7 @@ int TestGeoJSON(int argc, char **argv)
   vtkGeoJSONReader *reader = vtkGeoJSONReader::New();
 
   //Select source file
-  reader->SetFileName(argv[1]);
+  reader->SetFileName("JSONSample/india_outline.json");
 
   //Read the output
   reader->Update();
