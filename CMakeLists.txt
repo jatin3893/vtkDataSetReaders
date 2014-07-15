@@ -8,12 +8,12 @@ set(VTK_REQUIRED_COMPONENTS
 	vtkRenderingOpenGL
 	vtkjsoncpp
 	vtkCommonCore
-	vtkInteractionStyle)
+	vtkInteractionStyle
+	vtkIOPostgreSQL)
 
 find_package(VTK NO_MODULE REQUIRED COMPONENTS ${VTK_REQUIRED_COMPONENTS})
 find_package(libLAS)
 
-include(${libLAS_INCLUDE_DIRS})
 include(${VTK_USE_FILE})
 
 set (SOURCES
@@ -23,7 +23,9 @@ set (SOURCES
 	 vtkGeoJSONFeature.cxx
 	 vtkGeoJSONFeature.h
 	 vtkLASReader.cxx
-	 vtkLASReader.h)
+	 vtkLASReader.h
+	 vtkPostgreSQLDatabase.h
+	 vtkPostgreSQLDatabase.cxx)
 
 include_directories(${libLAS_INCLUDE_DIRS})
 
