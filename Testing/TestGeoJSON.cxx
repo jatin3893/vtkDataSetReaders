@@ -8,6 +8,9 @@
 //Reader includes
 #include "vtkGeoJSONReader.h"
 
+#include <fstream>
+#include <iostream>
+
 int TestGeoJSON(int argc, char **argv);
 
 int main(int argc, char **argv)
@@ -21,7 +24,7 @@ int TestGeoJSON(int argc, char **argv)
     {
     std::cout << "\n"
               << "Test vtkGeoJSONReader" << "\n"
-              << "Usage  TestGeoJSON  input_file.json"
+              << "Usage  TestGeoJSON  input_file.json  [StringInputMode=0]"
               << std::endl;
     return -1;
     }
@@ -29,8 +32,31 @@ int TestGeoJSON(int argc, char **argv)
   //Reader
   vtkGeoJSONReader *reader = vtkGeoJSONReader::New();
 
-  //Select source file
-  reader->SetFileName(argv[1]);
+  bool useStringInputMode = (argc > 2) && (argv[2] != "0");
+  if (useStringInputMode)
+    {
+    std::cout << "Setting StringInputMode true" << std::endl;
+    reader->StringInputModeOn();
+    // Load source file
+    std::ifstream in(argv[1], std::ios::in | std::ios::binary);
+    if (in)
+      {
+      std::string content(std::istreambuf_iterator<char>(in.rdbuf()),
+                          std::istreambuf_iterator<char>());
+      in.close();
+      reader->SetStringInput(content.c_str());
+      }
+    else
+      {
+      std::cerr << "Unable to open file " << argv[1] << std::endl;
+      return -1;
+      }
+    }
+  else
+    {
+    // Set source file
+    reader->SetFileName(argv[1]);
+    }
 
   //Read the output
   reader->Update();
