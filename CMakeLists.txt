@@ -20,6 +20,7 @@ option(BUILD_POSTGRES "Build PostgresSQL reader (requires postgress package" ON)
 if (BUILD_TESTING)
   list(APPEND VTK_REQUIRED_COMPONENTS
     vtkInteractionStyle
+    vtkIOLegacy
     vtkRenderingCore
     vtkRenderingOpenGL
   )

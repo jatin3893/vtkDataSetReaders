@@ -4,6 +4,7 @@
 #include <vtkRenderWindowInteractor.h>
 #include <vtkRenderWindow.h>
 #include <vtkPolyDataMapper.h>
+#include <vtkPolyDataWriter.h>
 
 //Reader includes
 #include "vtkGeoJSONReader.h"
@@ -25,6 +26,7 @@ int TestGeoJSON(int argc, char **argv)
     std::cout << "\n"
               << "Test vtkGeoJSONReader" << "\n"
               << "Usage  TestGeoJSON  input_file.json  [StringInputMode=0]"
+              <<"  [output.vtk]"
               << std::endl;
     return -1;
     }
@@ -62,6 +64,16 @@ int TestGeoJSON(int argc, char **argv)
   reader->Update();
 
   vtkPolyData *outputData = reader->GetOutput();
+
+  if (argc > 2)
+    {
+    std::cout << "Writing poly data to " << argv[2] << std::endl;
+    vtkSmartPointer<vtkPolyDataWriter> writer =
+      vtkSmartPointer<vtkPolyDataWriter>::New();
+    writer->SetFileName(argv[2]);
+    writer->SetInputData(outputData);
+    writer->Update();
+    }
 
   //Visualise in a render window
   vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
