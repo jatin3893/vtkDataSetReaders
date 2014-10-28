@@ -23,6 +23,7 @@ if (BUILD_TESTING)
     vtkIOLegacy
     vtkRenderingCore
     vtkRenderingOpenGL
+    vtksys
   )
 endif()
 
