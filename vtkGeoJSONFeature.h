@@ -22,19 +22,21 @@
 
 // VTK Includes
 #include "vtkDataObject.h"
+#include "vtkGeoJSONProperty.h"
 #include "vtk_jsoncpp.h" // For json parser
+#include <string>
+#include <vector>
 
 class vtkPolyData;
-class vtkStdString;
 
 // Currently implemented geoJSON compatible Geometries
-#define POINT                   "Point"
-#define MULTI_POINT             "MultiPoint"
-#define LINE_STRING             "LineString"
-#define MULTI_LINE_STRING       "MultiLineString"
-#define POLYGON                 "Polygon"
-#define MULTI_POLYGON           "MultiPolygon"
-#define GEOMETRY_COLLECTION     "GeometryCollection"
+#define GeoJSON_POINT                   "Point"
+#define GeoJSON_MULTI_POINT             "MultiPoint"
+#define GeoJSON_LINE_STRING             "LineString"
+#define GeoJSON_MULTI_LINE_STRING       "MultiLineString"
+#define GeoJSON_POLYGON                 "Polygon"
+#define GeoJSON_MULTI_POLYGON           "MultiPolygon"
+#define GeoJSON_GEOMETRY_COLLECTION     "GeometryCollection"
 
 class vtkGeoJSONFeature : public vtkDataObject
 {
@@ -44,25 +46,29 @@ public:
   vtkTypeMacro(vtkGeoJSONFeature,vtkDataObject);
 
   // Description:
-  //Extract the geometry and properties corresponding to the geoJSON feature stored at root
+  // Extract the geometry corresponding to the geoJSON feature stored at root
+  // Assign any feature properties passed as cell data
   void ExtractGeoJSONFeature(Json::Value root, vtkPolyData *outputData);
 
-  // Description:
-  //Return the vtkPolyData corresponding to the geoJSON feature stord in featureRoot
-  vtkPolyData *GetOutput();
+  void SetFeatureProperties(std::vector<vtkGeoJSONProperty>& properties);
+  void GetFeatureProperties(std::vector<vtkGeoJSONProperty>& properties);
 
 protected:
   vtkGeoJSONFeature();
   ~vtkGeoJSONFeature();
 
   // Description:
-  // vtkPolyData containing the polydata generated from the geoJSON feature
-  vtkPolyData *outputData;
-
-  // Description:
   // Json::Value featureRoot corresponds to the root of the geoJSON feature
   // from which the geometry and properties are to be extracted
   Json::Value featureRoot;
+
+  // Description:
+  // Id of current GeoJSON feature being parsed
+  std::string FeatureId;
+
+  // Description:
+  // Properties of current GeoJSON feature being parsed
+  std::vector<vtkGeoJSONProperty> FeatureProperties;
 
   // Description:
   // Extract geoJSON geometry into vtkPolyData *
@@ -95,8 +101,7 @@ protected:
   double *CreatePoint(Json::Value coordinates);
 
   // Description:
-  // Case insensitive string comparison
-  bool IsEqual(vtkStdString str1, vtkStdString str2);
+  void InsertFeatureProperties(vtkPolyData *outputData);
 
 private:
   vtkGeoJSONFeature(const vtkGeoJSONFeature&);  //Not implemented
