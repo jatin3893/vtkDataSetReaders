@@ -250,7 +250,7 @@ bool SetupFeatureProperties(Json::Value& schemaNode, vtkGeoJSONReader *reader)
     char charName[length+1];
     name.copy(charName, length);
     charName[length] = '\0';
-    reader->AddFeatureProperty(charName, vtkDataType, defaultValue);
+    reader->AddFeatureProperty(charName, defaultValue);
     }
 
   return true;
