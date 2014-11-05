@@ -27,6 +27,8 @@
 #include <string>
 #include <vector>
 
+#include "vtkdatasetreaders_export.h"
+
 class vtkPolyData;
 
 // Currently implemented geoJSON compatible Geometries
@@ -38,7 +40,7 @@ class vtkPolyData;
 #define GeoJSON_MULTI_POLYGON           "MultiPolygon"
 #define GeoJSON_GEOMETRY_COLLECTION     "GeometryCollection"
 
-class vtkGeoJSONFeature : public vtkDataObject
+class VTKDATASETREADERS_EXPORT vtkGeoJSONFeature : public vtkDataObject
 {
 public:
   static vtkGeoJSONFeature *New();

@@ -27,9 +27,11 @@
 #include <string>
 #include <vector>
 
+#include "vtkdatasetreaders_export.h"
+
 class vtkPolyData;
 
-class vtkGeoJSONReader: public vtkPolyDataAlgorithm
+class VTKDATASETREADERS_EXPORT vtkGeoJSONReader: public vtkPolyDataAlgorithm
 {
 public:
   static vtkGeoJSONReader* New();
