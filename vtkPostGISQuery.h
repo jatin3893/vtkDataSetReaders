@@ -3,11 +3,13 @@
 
 #include <vtkPostgreSQLQuery.h>
 
+#include "vtkdatasetreaders_export.h"
+
 #define GeoJSON 1
 
 class vtkPolyData;
 
-class vtkPostGISQuery : public vtkPostgreSQLQuery
+class VTKDATASETREADERS_EXPORT vtkPostGISQuery : public vtkPostgreSQLQuery
 {
 public:
   static vtkPostGISQuery *New();
