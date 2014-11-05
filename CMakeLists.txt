@@ -36,9 +36,15 @@ if (BUILD_LAS)
   list(APPEND SOURCES vtkLASReader.h vtkLASReader.cxx)
 endif()
 
-
 find_package(VTK NO_MODULE REQUIRED COMPONENTS ${VTK_REQUIRED_COMPONENTS})
 include(${VTK_USE_FILE})
+
+# include export header modules so that we can easily control symbol exporting
+# VTK Map is setup by default not to export symbols unless explicitly stated.
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
+include(GenerateExportHeader)
+
 
 set (SOURCES
 	  vtkGeoJSONReader.cxx
@@ -48,8 +54,8 @@ set (SOURCES
 set (HEADERS
     vtkGeoJSONReader.h
     vtkGeoJSONFeature.h
+    ${CMAKE_CURRENT_BINARY_DIR}/vtkdatasetreaders_export.h
     )
-
 
 if(BUILD_POSTGRES)
   list(APPEND SOURCES vtkPostgreSQLDatabase.cxx)
@@ -61,11 +67,14 @@ if (BUILD_LAS)
   list(APPEND HEADERS vtkLASReader.h)
 endif()
 
-
 add_library(vtkDataSetReaders ${SOURCES})
+
 target_link_libraries(vtkDataSetReaders
                       LINK_PUBLIC
                       ${VTK_LIBRARIES})
+
+target_include_directories(vtkDataSetReaders
+                           PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 if(BUILD_LAS)
   target_link_libraries(vtkDataSetReaders LINK_PUBLIC ${libLAS_LIBRARIES} )
@@ -87,6 +96,8 @@ else( )
                         )
 endif()
 
+#setup export header
+generate_export_header(vtkDataSetReaders)
 
 #install all the headers and the library
 install(TARGETS vtkDataSetReaders

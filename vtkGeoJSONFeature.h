@@ -24,6 +24,8 @@
 #include "vtkDataObject.h"
 #include "vtk_jsoncpp.h" // For json parser
 
+#include "vtkdatasetreaders_export.h"
+
 class vtkPolyData;
 class vtkStdString;
 
@@ -36,7 +38,7 @@ class vtkStdString;
 #define MULTI_POLYGON           "MultiPolygon"
 #define GEOMETRY_COLLECTION     "GeometryCollection"
 
-class vtkGeoJSONFeature : public vtkDataObject
+class VTKDATASETREADERS_EXPORT vtkGeoJSONFeature : public vtkDataObject
 {
 public:
   static vtkGeoJSONFeature *New();

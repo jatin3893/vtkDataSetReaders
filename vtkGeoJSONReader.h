@@ -24,9 +24,11 @@
 #include "vtkPolyDataAlgorithm.h"
 #include "vtk_jsoncpp.h" // For json parser
 
+#include "vtkdatasetreaders_export.h"
+
 class vtkPolyData;
 
-class vtkGeoJSONReader: public vtkPolyDataAlgorithm
+class VTKDATASETREADERS_EXPORT vtkGeoJSONReader: public vtkPolyDataAlgorithm
 {
 public:
   static vtkGeoJSONReader* New();
