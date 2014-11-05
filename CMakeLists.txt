@@ -41,18 +41,24 @@ find_package(VTK NO_MODULE REQUIRED COMPONENTS ${VTK_REQUIRED_COMPONENTS})
 include(${VTK_USE_FILE})
 
 set (SOURCES
-	 vtkGeoJSONReader.cxx
-	 vtkGeoJSONReader.h
-	 vtkGeoJSONFeature.cxx
-	 vtkGeoJSONFeature.h
-)
+	  vtkGeoJSONReader.cxx
+    vtkGeoJSONFeature.cxx
+    )
+
+set (HEADERS
+    vtkGeoJSONReader.h
+    vtkGeoJSONFeature.h
+    )
+
 
 if(BUILD_POSTGRES)
-  list(APPEND SOURCES vtkPostgreSQLDatabase.h vtkPostgreSQLDatabase.cxx)
+  list(APPEND SOURCES vtkPostgreSQLDatabase.cxx)
+  list(APPEND HEADERS vtkPostgreSQLDatabase.h)
 endif()
 
 if (BUILD_LAS)
-  list(APPEND SOURCES vtkLASReader.h vtkLASReader.cxx)
+  list(APPEND SOURCES vtkLASReader.cxx)
+  list(APPEND HEADERS vtkLASReader.h)
 endif()
 
 
@@ -68,10 +74,30 @@ if(BUILD_LAS)
   target_include_directories(vtkDataSetReaders PUBLIC ${libLAS_INCLUDE_DIRS})
 endif()
 
+# On Mac OS X, set the directory included as part of the
+# installed library's path. We only do this to libraries that we plan
+# on installing
+if (BUILD_SHARED_LIBS)
+  set_target_properties(vtkDataSetReaders PROPERTIES
+                        INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib")
+else( )
+  #explicitly enable fpic when building statically
+  set_target_properties(vtkDataSetReaders PROPERTIES
+                        POSITION_INDEPENDENT_CODE True
+                        )
+endif()
+
+
+#install all the headers and the library
+install(TARGETS vtkDataSetReaders
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        )
+install (FILES ${HEADERS} DESTINATION include)
+
+
 if(BUILD_TESTING)
   add_subdirectory(Testing)
 endif()
 
-
-#add_executable(run main ${SOURCES})
-#target_link_libraries(run ${VTK_LIBRARIES} ${libLAS_LIBRARIES})
