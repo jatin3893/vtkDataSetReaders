@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8.11 FATAL_ERROR)
 
 project (vtkDataSetReaders)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -29,6 +29,14 @@ if(BUILD_POSTGRES)
   list(APPEND VTK_REQUIRED_COMPONENTS vtkIOPostgreSQL)
 endif()
 
+if (BUILD_LAS)
+  set(libLAS_LIBRARIES)
+  mark_as_advanced(FORCE libLAS_LIBRARIES)
+  find_package(libLAS)
+  list(APPEND SOURCES vtkLASReader.h vtkLASReader.cxx)
+endif()
+
+
 find_package(VTK NO_MODULE REQUIRED COMPONENTS ${VTK_REQUIRED_COMPONENTS})
 include(${VTK_USE_FILE})
 
@@ -39,21 +47,26 @@ set (SOURCES
 	 vtkGeoJSONFeature.h
 )
 
-set(libLAS_LIBRARIES "")
-mark_as_advanced(FORCE libLAS_LIBRARIES)
-if (BUILD_LAS)
-  find_package(libLAS)
-  include_directories(${libLAS_INCLUDE_DIRS})
-  list(APPEND SOURCES vtkLASReader.h vtkLASReader.cxx)
-endif()
-
 if(BUILD_POSTGRES)
   list(APPEND SOURCES vtkPostgreSQLDatabase.h vtkPostgreSQLDatabase.cxx)
 endif()
 
+if (BUILD_LAS)
+  list(APPEND SOURCES vtkLASReader.h vtkLASReader.cxx)
+endif()
+
 
 add_library(vtkDataSetReaders ${SOURCES})
-target_link_libraries(vtkDataSetReaders ${VTK_LIBRARIES} ${libLAS_LIBRARIES})
+target_link_libraries(vtkDataSetReaders
+                      LINK_PUBLIC
+                      ${VTK_LIBRARIES})
+
+if(BUILD_LAS)
+  target_link_libraries(vtkDataSetReaders LINK_PUBLIC ${libLAS_LIBRARIES} )
+
+  #needs to be public since we include liblas headers in our headers
+  target_include_directories(vtkDataSetReaders PUBLIC ${libLAS_INCLUDE_DIRS})
+endif()
 
 if(BUILD_TESTING)
   add_subdirectory(Testing)
