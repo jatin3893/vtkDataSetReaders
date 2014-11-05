@@ -10,7 +10,7 @@ set(VTK_REQUIRED_COMPONENTS
 	vtkjsoncpp
 	vtkCommonCore
 	vtkCommonExecutionModel
-        vtkFiltersCore
+  vtkFiltersCore
 )
 
 option(BUILD_TESTING "Build test programs" ON)
@@ -55,7 +55,9 @@ endif()
 add_library(vtkDataSetReaders ${SOURCES})
 target_link_libraries(vtkDataSetReaders ${VTK_LIBRARIES} ${libLAS_LIBRARIES})
 
-add_subdirectory(Testing)
+if(BUILD_TESTING)
+  add_subdirectory(Testing)
+endif()
 
 
 #add_executable(run main ${SOURCES})
