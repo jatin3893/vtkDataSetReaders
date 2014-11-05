@@ -56,6 +56,7 @@ set (SOURCES
 set (HEADERS
     vtkGeoJSONReader.h
     vtkGeoJSONFeature.h
+    vtkGeoJSONProperty.h
     ${CMAKE_CURRENT_BINARY_DIR}/vtkdatasetreaders_export.h
     )
 
