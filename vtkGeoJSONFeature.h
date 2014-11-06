@@ -107,7 +107,7 @@ protected:
 
   // Description:
   // Point[] from its JSON equivalent
-  double *CreatePoint(const Json::Value& coordinates);
+  bool CreatePoint(const Json::Value& coordinates, double point[3]);
 
   // Description:
   void InsertFeatureProperties(vtkPolyData *outputData);
