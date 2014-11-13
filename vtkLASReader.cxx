@@ -121,11 +121,14 @@ void vtkLASReader::ReadPointRecordData(liblas::Reader &reader, vtkPolyData* poin
     case None:
       break;
     case Color:
-      color = new unsigned char[3];
+      {
+      char color[3];
       color[0] = p.GetColor().GetRed() / 256;
       color[1] = p.GetColor().GetGreen() / 256;
       color[2] = p.GetColor().GetBlue() / 256;
       colors->InsertNextTupleValue(color);
+      }
+      delete
       break;
     case Classification:
       colors->InsertNextTupleValue( vtkLASReader::ClassificationColorMap[ p.GetClassification().GetClass() ] );
