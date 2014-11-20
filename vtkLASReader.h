@@ -12,6 +12,8 @@
 #include <vtkInformationVector.h>
 #include <vtkObjectFactory.h>
 
+#include "vtkdatasetreaders_export.h"
+
 //libLAS Includes
 #include <liblas/liblas.hpp>
 
@@ -19,7 +21,7 @@
 #include <fstream>
 #include <iostream>
 
-class vtkLASReader: public vtkPolyDataAlgorithm
+class VTKDATASETREADERS_EXPORT vtkLASReader: public vtkPolyDataAlgorithm
 {
 public:
   static vtkLASReader* New();
